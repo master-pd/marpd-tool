@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Facebook Recovery</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 40px;
+      margin-bottom: 10px;
+      color: #1877f2;
+    }
+    .logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 15px auto;
+      display: block;
+      border: 3px solid #1877f2;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+    input {
+      width: 60%;
+    }
+    button {
+      background-color: #1877f2;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #145dbf;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #555;
+      border-radius: 10px;
+      display: none;
+      background: #222;
+    }
+  </style>
+</head>
+<body>
+  <h1>FACEBOOK</h1>
+  
+ 
+ 
+  <img src="logo.jpg" alt="Profile Logo" class="logo">
+  
+  <h2>FACEBOOK PASS MATCHING CHECK </h2> 
+  
+  <h3>
+    CREATOR: MAR PD ☠️ 
+  </h3>
+  
+  
+  <input type="text" id="url" placeholder="Enter profile URL"><br>
+  <button onclick="startCheck()">Start</button>
+
+  <div id="result"></div>
+
+  <script>
+    async function startCheck() {
+      const url = document.getElementById("url").value.trim();
+      const resultDiv = document.getElementById("result");
+
+      if (!url) {
+        alert("Please enter a profile URL!");
+        return;
+      }
+
+      try {
+       
+        const response = await fetch("password.txt");
+        const text = await response.text();
+        const passwords = text.split(/\r?\n/);
+
+       
+        let found = null;
+        for (let pass of passwords) {
+          if (pass.trim() === "") continue;
+          if (url.includes(pass)) {
+            found = pass;
+            break;
+          }
+        }
+
+        resultDiv.style.display = "block";
+        if (found) {
+          resultDiv.innerHTML = `<b>Matched Password:</b> ${found}`;
+        } else {
+          resultDiv.innerHTML = "No match found.";
+        }
+
+      } catch (err) {
+        alert("password.txt file not found! Place it next to index.html");
+      }
+    }
+  </script>
+</body>
+</html>
